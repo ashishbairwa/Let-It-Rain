@@ -1,5 +1,5 @@
     //rain count fix (device)
-    let scene,camera, renderer, cloudParticles = [], flash, rain, rainGeo, rainCount = 7000;
+    let scene,camera, renderer, cloudParticles = [], flash, rain, rainGeo, rainCount = 5000;
     function init() {
       scene = new THREE.Scene();
       camera = new THREE.PerspectiveCamera(60,window.innerWidth / window.innerHeight, 1, 1000);
@@ -35,7 +35,7 @@
       //rain material size fix
       rainMaterial = new THREE.PointsMaterial({
         color: 0xaaaaaa,
-        size: 0.4,
+        size: 0.2,
         transparent: true
       });
       rain = new THREE.Points(rainGeo,rainMaterial);
@@ -69,7 +69,7 @@
         p.rotation.z -=0.002;
       });
       rainGeo.vertices.forEach(p => {
-        p.velocity -= 0.1 + Math.random() * 0.1;
+        p.velocity -= 0.1 + Math.random() * 0.01;
         p.y += p.velocity;
         if (p.y < -200) {
           p.y = 200;
