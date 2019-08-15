@@ -35,7 +35,7 @@
       //rain material size fix
       rainMaterial = new THREE.PointsMaterial({
         color: 0xaaaaaa,
-        size: 0.2,
+        size: 0.4,
         transparent: true
       });
       rain = new THREE.Points(rainGeo,rainMaterial);
