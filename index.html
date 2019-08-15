@@ -8,7 +8,8 @@
   <body>
     <script src="three.min.js"></script>
     <script>
-    let scene,camera, renderer, cloudParticles = [], flash, rain, rainGeo, rainCount = 15000;
+    //rain count fix (device)
+    let scene,camera, renderer, cloudParticles = [], flash, rain, rainGeo, rainCount = 7000;
     function init() {
       scene = new THREE.Scene();
       camera = new THREE.PerspectiveCamera(60,window.innerWidth / window.innerHeight, 1, 1000);
@@ -25,6 +26,7 @@
       flash.position.set(200,300,100);
       scene.add(flash);
       renderer = new THREE.WebGLRenderer();
+      //fog for glance
       scene.fog = new THREE.FogExp2(0x11111f, 0.002);
       renderer.setClearColor(scene.fog.color);
       renderer.setSize(window.innerWidth, window.innerHeight);
@@ -40,9 +42,10 @@
         rainDrop.velocity = 0;
         rainGeo.vertices.push(rainDrop);
       }
+      //rain material size fix
       rainMaterial = new THREE.PointsMaterial({
         color: 0xaaaaaa,
-        size: 0.1,
+        size: 0.2,
         transparent: true
       });
       rain = new THREE.Points(rainGeo,rainMaterial);
