@@ -15,6 +15,8 @@
       flash.position.set(200,300,100);
       scene.add(flash);
       renderer = new THREE.WebGLRenderer();
+      var loader = new THREE.TextureLoader();
+      loader.crossOrigin = '';  
       scene.fog = new THREE.FogExp2(0x11111f, 0.002);
       renderer.setClearColor(scene.fog.color);
       renderer.setSize(window.innerWidth, window.innerHeight);
