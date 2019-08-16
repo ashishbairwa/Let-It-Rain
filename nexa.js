@@ -33,7 +33,9 @@
       rainMaterial = new THREE.PointCloudMaterial({
       color: 0xFFFFFF,
       size: 0.8,
-      map: loader.load("drop.png"),
+      map: loader.load(
+        "https://s3-us-west-2.amazonaws.com/s.cdpn.io/212131/raindrop2.png"
+       ),
        blending: THREE.AdditiveBlending,
        depthTest: false,
        transparent: true
