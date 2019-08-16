@@ -15,8 +15,6 @@
       flash.position.set(200,300,100);
       scene.add(flash);
       renderer = new THREE.WebGLRenderer();
-      var loader = new THREE.TextureLoader();
-      loader.crossOrigin = '';  
       scene.fog = new THREE.FogExp2(0x11111f, 0.002);
       renderer.setClearColor(scene.fog.color);
       renderer.setSize(window.innerWidth, window.innerHeight);
@@ -32,19 +30,10 @@
         rainDrop.velocity = 0;
         rainGeo.vertices.push(rainDrop);
       }
-      rainMaterial = new THREE.PointCloudMaterial({
-      color: 0xFFFFFF,
-      size: 0.8,
-      map: loader.load(
-        "https://s3-us-west-2.amazonaws.com/s.cdpn.io/212131/raindrop2.png"
-       ),
-       blending: THREE.AdditiveBlending,
-       depthTest: false,
-       transparent: true
-    });
       rain = new THREE.Points(rainGeo,rainMaterial);
       scene.add(rain);
       let loader = new THREE.TextureLoader();
+      loader.crossOrigin = '';
       loader.load("smoke.png", function(texture){
         cloudGeo = new THREE.PlaneBufferGeometry(500,500);
         cloudMaterial = new THREE.MeshLambertMaterial({
@@ -67,6 +56,16 @@
         }
         animate();
       });
+              rainMaterial = new THREE.PointCloudMaterial({
+      color: 0xFFFFFF,
+      size: 0.8,
+      map: loader.load(
+        "https://s3-us-west-2.amazonaws.com/s.cdpn.io/212131/raindrop2.png"
+       ),
+       blending: THREE.AdditiveBlending,
+       depthTest: false,
+       transparent: true
+    });
     }
     function animate() {
       cloudParticles.forEach(p => {
