@@ -1,1 +1,93 @@
-let scene,camera,renderer,flash,rain,rainGeo,cloudParticles=[],rainCount=5e3;function init(){scene=new THREE.Scene,(camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,1,1e3)).position.z=1,camera.rotation.x=1.16,camera.rotation.y=-.12,camera.rotation.z=.27,ambient=new THREE.AmbientLight(5592405),scene.add(ambient),directionalLight=new THREE.DirectionalLight(16772829),directionalLight.position.set(0,0,1),scene.add(directionalLight),(flash=new THREE.PointLight(404873,30,500,1.7)).position.set(200,300,100),scene.add(flash),renderer=new THREE.WebGLRenderer,scene.fog=new THREE.FogExp2(1118495,.002),renderer.setClearColor(scene.fog.color),renderer.setSize(window.innerWidth,window.innerHeight),document.body.appendChild(renderer.domElement),rainGeo=new THREE.Geometry;for(let e=0;e<rainCount;e++)rainDrop=new THREE.Vector3(400*Math.random()-200,500*Math.random()-250,400*Math.random()-200),rainDrop.velocity={},rainDrop.velocity=0,rainGeo.vertices.push(rainDrop);rainMaterial=new THREE.PointCloudMaterial({color: 0xFFFFFF,size: 0.8,map: loader.load("drop.png"),rain=new THREE.Points(rainGeo,rainMaterial),scene.add(rain),(new THREE.TextureLoader).load("smoke.png",function(e){cloudGeo=new THREE.PlaneBufferGeometry(500,500),cloudMaterial=new THREE.MeshLambertMaterial({map:e,transparent:!0});for(let e=0;e<25;e++){let e=new THREE.Mesh(cloudGeo,cloudMaterial);e.position.set(800*Math.random()-400,500,500*Math.random()-450),e.rotation.x=1.16,e.rotation.y=-.12,e.rotation.z=360*Math.random(),e.material.opacity=.6,cloudParticles.push(e),scene.add(e)}animate()})}function animate(){cloudParticles.forEach(e=>{e.rotation.z-=.002}),rainGeo.vertices.forEach(e=>{e.velocity-=.1+.01*Math.random(),e.y+=e.velocity,e.y<-200&&(e.y=200,e.velocity=0)}),rainGeo.verticesNeedUpdate=!0,rain.rotation.y+=.002,(Math.random()>.93||flash.power>100)&&(flash.power<100&&flash.position.set(400*Math.random(),300+200*Math.random(),100),flash.power=50+500*Math.random()),renderer.render(scene,camera),requestAnimationFrame(animate)}init();
+    let scene,camera, renderer, cloudParticles = [], flash, rain, rainGeo, rainCount = 5000;
+    function init() {
+      scene = new THREE.Scene();
+      camera = new THREE.PerspectiveCamera(60,window.innerWidth / window.innerHeight, 1, 1000);
+      camera.position.z = 1;
+      camera.rotation.x = 1.16;
+      camera.rotation.y = -0.12;
+      camera.rotation.z = 0.27;
+      ambient = new THREE.AmbientLight(0x555555);
+      scene.add(ambient);
+      directionalLight = new THREE.DirectionalLight(0xffeedd);
+      directionalLight.position.set(0,0,1);
+      scene.add(directionalLight);
+      flash = new THREE.PointLight(0x062d89, 30, 500 ,1.7);
+      flash.position.set(200,300,100);
+      scene.add(flash);
+      renderer = new THREE.WebGLRenderer();
+      scene.fog = new THREE.FogExp2(0x11111f, 0.002);
+      renderer.setClearColor(scene.fog.color);
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.body.appendChild(renderer.domElement);
+      rainGeo = new THREE.Geometry();
+      for(let i=0;i<rainCount;i++) {
+        rainDrop = new THREE.Vector3(
+          Math.random() * 400 -200,
+          Math.random() * 500 - 250,
+          Math.random() * 400 - 200
+        );
+        rainDrop.velocity = {};
+        rainDrop.velocity = 0;
+        rainGeo.vertices.push(rainDrop);
+      }
+      rainMaterial = new THREE.PointCloudMaterial({
+      color: 0xFFFFFF,
+      size: 0.8,
+      map: loader.load("drop.png"),
+       blending: THREE.AdditiveBlending,
+       depthTest: false,
+       transparent: true
+    });
+      rain = new THREE.Points(rainGeo,rainMaterial);
+      scene.add(rain);
+      let loader = new THREE.TextureLoader();
+      loader.load("smoke.png", function(texture){
+        cloudGeo = new THREE.PlaneBufferGeometry(500,500);
+        cloudMaterial = new THREE.MeshLambertMaterial({
+          map: texture,
+          transparent: true
+        });
+        for(let p=0; p<25; p++) {
+          let cloud = new THREE.Mesh(cloudGeo,cloudMaterial);
+          cloud.position.set(
+            Math.random()*800 -400,
+            500,
+            Math.random()*500 - 450
+          );
+          cloud.rotation.x = 1.16;
+          cloud.rotation.y = -0.12;
+          cloud.rotation.z = Math.random()*360;
+          cloud.material.opacity = 0.6;
+          cloudParticles.push(cloud);
+          scene.add(cloud);
+        }
+        animate();
+      });
+    }
+    function animate() {
+      cloudParticles.forEach(p => {
+        p.rotation.z -=0.002;
+      });
+      rainGeo.vertices.forEach(p => {
+        p.velocity -= 0.1 + Math.random() * 0.01;
+        p.y += p.velocity;
+        if (p.y < -200) {
+          p.y = 200;
+          p.velocity = 0;
+        }
+      });
+      rainGeo.verticesNeedUpdate = true;
+      rain.rotation.y +=0.002;
+      if(Math.random() > 0.93 || flash.power > 100) {
+        if(flash.power < 100) 
+          flash.position.set(
+            Math.random()*400,
+            300 + Math.random() *200,
+            100
+          );
+        flash.power = 50 + Math.random() * 500;
+      }
+      renderer.render(scene, camera);
+      requestAnimationFrame(animate);
+    }
+    init();
