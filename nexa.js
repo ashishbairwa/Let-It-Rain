@@ -30,6 +30,11 @@
         rainDrop.velocity = 0;
         rainGeo.vertices.push(rainDrop);
       }
+      rainMaterial = new THREE.PointsMaterial({
+        color: 0xaaaaaa,
+        size: 0.2,
+        transparent: true
+      });
       rain = new THREE.Points(rainGeo,rainMaterial);
       scene.add(rain);
       let loader = new THREE.TextureLoader();
@@ -56,16 +61,7 @@
         }
         animate();
       });
-              rainMaterial = new THREE.PointCloudMaterial({
-      color: 0xFFFFFF,
-      size: 0.8,
-      map: loader.load(
-        "https://s3-us-west-2.amazonaws.com/s.cdpn.io/212131/raindrop2.png"
-       ),
-       blending: THREE.AdditiveBlending,
-       depthTest: false,
-       transparent: true
-    });
+
     }
     function animate() {
       cloudParticles.forEach(p => {
