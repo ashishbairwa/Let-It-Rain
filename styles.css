@@ -8,14 +8,13 @@ body {
 
 #flag {
   color: white;
-  font-weight: bold; 
-  font-size: 120%;
+  font-size: 110%;
   font-family: 'Indie Flower', cursive;
   text-decoration: none;
 }
 
 .intro{
     position: fixed;
-    bottom: 2%;
-    left: 90%;
+    bottom: 4%;
+    left: 87%;
 }
